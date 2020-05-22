@@ -8,3 +8,16 @@ colnames(muestra32) <- c("nif", "nombre", "genero")
 library(dplyr)
 df <- muestra32 %>% 
   mutate(genero_imp = muestra32$genero)
+
+#borramos "HEAD..."
+#procesamiento del nif
+regexp <- "([[:digit:]]{8})([[:alpha:]]{1})"
+g <- as.vector(grepl(pattern = regexp, x = df$nif))
+df <- df %>% 
+  mutate(nif_imp = g)
+
+df <- df %>% 
+  filter(df$nif_imp == "TRUE")
+
+df <- df[,-5]
+>>>>>>> rama-nif
