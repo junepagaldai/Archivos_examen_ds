@@ -3,3 +3,19 @@ dim(muestra32) #el dataset tiene 337685 observaciones y 3 variables (un código,
 
 #cambiamos nombre de las columnas
 colnames(muestra32) <- c("nif", "nombre", "genero")
+
+#procesamiento del genero
+library(dplyr)
+df <- muestra32 %>% 
+  mutate(genero_imp = muestra32$genero)
+
+#procesamiento del nif
+regexp <- "([[:digit:]]{8})([[:alpha:]]{1})"
+g <- as.vector(grepl(pattern = regexp, x = df$nif))
+df <- df %>% 
+  mutate(nif_imp = g)
+
+df <- df %>% 
+  filter(df$nif_imp == "TRUE")
+
+df <- df[,-5]
